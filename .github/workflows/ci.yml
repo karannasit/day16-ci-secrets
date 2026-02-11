@@ -1,0 +1,22 @@
+name: Day16 CI Secrets
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Build Docker image
+      run: docker build -t day16-image .
+
+    - name: Run container with secret
+      run: |
+        docker run --rm \
+        -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+        day16-image
